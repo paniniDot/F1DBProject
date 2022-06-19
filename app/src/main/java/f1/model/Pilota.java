@@ -15,17 +15,16 @@ public class Pilota {
 	
 
 
-	public Pilota(String cf, String nome, String cognome, Date dataNascita, String residenza, int campionatiVinti,
-			int numeroDiPresenze, int gareVinte) {
+	public Pilota(String cf, String nome, String cognome, Date dataNascita, String residenza) {
 		super();
 		this.cf = cf;
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dataNascita = dataNascita;
 		this.residenza = residenza;
-		this.campionatiVinti = campionatiVinti;
-		this.numeroDiPresenze = numeroDiPresenze;
-		this.gareVinte = gareVinte;
+		this.campionatiVinti = 0;
+		this.numeroDiPresenze = 0;
+		this.gareVinte = 0;
 	}
 
 	public String getCf(){
