@@ -15,32 +15,31 @@ import f1.db.TableImpl;
 import f1.model.Pilota;
 import f1.utils.Utils;
 
-public class TabellaPilota extends TableImpl<Pilota, String>{
+public class TabellaPiloti extends TableImpl<Pilota, String>{
 	
-	private static final String TABLE_NAME = "DIPENDENTI";
+	private static final String TABLE_NAME = "PILOTI";
 	
-	public TabellaPilota(final Connection connection) {
+	public TabellaPiloti(final Connection connection) {
 		super(connection);
 	}
 	
 	@Override
 	public String getTableName() {
-		return TabellaPilota.TABLE_NAME;
+		return TabellaPiloti.TABLE_NAME;
 	}
 
 	@Override
 	public boolean createTable() {
-		final String query = "CREATE TABLE" + TABLE_NAME + " (" +
+		final String query = "CREATE TABLE " + TABLE_NAME + " (" +
 			"cf CHAR(16) NOT NULL PRIMARY KEY," +
 			"nome VARCHAR(50) NOT NULL," +
 			"cognome VARCHAR(50) NOT NULL," +
 			"dataNascita DATE NOT NULL," +
-			"residenza VARCHAR(200) NOT NULL" +
-			"campionatiVint VARCHAR(200) NOT NULL" +
-			"numeroDiPresenze VARCHAR(200) NOT NULL" +
-			"gareVinte VARCHAR(200) NOT NULL" +
+			"residenza VARCHAR(200) NOT NULL," +
+			"campionatiVinti INT NOT NULL," +
+			"numeroDiPresenze INT NOT NULL," +
+			"gareVinte INT NOT NULL" +
 			")";
-				
 		try(final Statement statement = super.getConnection().createStatement()) {
 			statement.executeUpdate(query);
 			return true;
@@ -61,11 +60,23 @@ public class TabellaPilota extends TableImpl<Pilota, String>{
 
 	@Override
 	public Optional<Pilota> findByPrimaryKey(String CF) {
-		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE cf = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, CF);
             final ResultSet resultSet = statement.executeQuery();
-            return readDipendenteFromResultSet(resultSet).stream().findFirst();
+            return readPilotaFromResultSet(resultSet).stream().findFirst();
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+	}
+	
+	public List<Pilota> findByNameAndSurname(final String nome, final String cognome) {
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE nome = ?" + " AND cognome = ?";
+        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.setString(1, nome);
+            statement.setString(2, cognome);
+        	final ResultSet resultSet = statement.executeQuery();
+            return readPilotaFromResultSet(resultSet);
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
@@ -76,47 +87,37 @@ public class TabellaPilota extends TableImpl<Pilota, String>{
 		final String query = "SELECT * FROM " + TABLE_NAME;
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
-            return readDipendenteFromResultSet(resultSet);
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
-	}
-
-	public List<Pilota> findByNameAndSurname(final String nome, final String cognome) {
-		final String query = "SELECT * FROM " + TABLE_NAME + "WHERE nome = ?" + " AND cognome = ?";
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, nome);
-            statement.setString(2, cognome);
-        	final ResultSet resultSet = statement.executeQuery();
-            return readDipendenteFromResultSet(resultSet);
+            return readPilotaFromResultSet(resultSet);
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
 	}
 	
-	public List<Pilota> printStatistics(final String nome, final String cognome) {
-		final String query = "SELECT * FROM " + TABLE_NAME+ "WHERE nome = ?" + " AND cognome = ?" ;
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, nome);
-            statement.setString(2, cognome);
-        	final ResultSet resultSet = statement.executeQuery();
-            return readDipendenteFromResultSet(resultSet);
+	public Optional<Pilota> printPilotStatistics(final Pilota pilota) {
+		final String query = "SELECT nome, cognome, campionatiVinti, numeroDiPresenze, gareVinte FROM " + TABLE_NAME + " WHERE cf = ?";
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.setString(1, pilota.getCf());
+            System.out.println(statement);
+            final ResultSet resultSet = statement.executeQuery();
+            return readPilotaFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
 	}
 	
 	@Override
-	public boolean save(Pilota dipendente) {
-		final String query = "INSERT INTO " + TABLE_NAME + "(cf, nome, cognome, dataNascita, residenza,CampionatiVinti, NumeroDiPresenze, GareVinte) VALUES (?,?,?,?,?,?,?,?)";
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, dipendente.getCf());
-            statement.setString(2, dipendente.getNome());
-            statement.setString(3, dipendente.getCognome());
-            statement.setDate(4, Utils.dateToSqlDate(dipendente.getDatanascita()));
-            statement.setInt(5, dipendente.getCampionatiVinti());
-            statement.setInt(6, dipendente.getNumeroDiPresenze());
-            statement.setInt(7, dipendente.getGareVinte());
+	public boolean save(Pilota pilota) {
+		final String query = "INSERT INTO " + TABLE_NAME + "(cf, nome, cognome, dataNascita, residenza, campionatiVinti, numeroDiPresenze, gareVinte) VALUES (?,?,?,?,?,?,?,?)";
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.setString(1, pilota.getCf());
+            statement.setString(2, pilota.getNome());
+            statement.setString(3, pilota.getCognome());
+            statement.setDate(4, Utils.dateToSqlDate(pilota.getDatanascita()));
+            statement.setString(5, pilota.getResidenza());
+            statement.setInt(6, 0);
+            statement.setInt(7, 0);
+            statement.setInt(8, 0);
+            System.out.println(statement);
             statement.executeUpdate();
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -128,16 +129,54 @@ public class TabellaPilota extends TableImpl<Pilota, String>{
 
 	@Override
 	public boolean update(Pilota updatedValue) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+		throw new UnsupportedOperationException(); 
+	}	
 
 	@Override
 	public boolean delete(String primaryKey) {
 		throw new UnsupportedOperationException();
 	}
-
-	private List<Pilota> readDipendenteFromResultSet(final ResultSet set) {
+	
+	public boolean updateGareVinte(Pilota pilota) {
+		final String query = "UPDATE " + TABLE_NAME + " SET gareVinte = gareVinte + 1 WHERE cf = " + pilota.getCf(); 
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.executeUpdate();
+            pilota.setGareVinte(pilota.getGareVinte()+1);
+            return true;
+        } catch (final SQLIntegrityConstraintViolationException e) {
+            return false;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+	}
+	
+	public boolean updateCampionatiVinti(Pilota pilota) {
+		final String query = "UPDATE " + TABLE_NAME + " SET campionatiVinti = campionatiVinti + 1 WHERE cf = " + pilota.getCf(); 
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.executeUpdate();
+            pilota.setCampionatiVinti(pilota.getCampionatiVinti()+1);
+            return true;
+        } catch (final SQLIntegrityConstraintViolationException e) {
+            return false;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+	}
+	
+	public boolean updatePresenzeInGara(Pilota pilota) {
+		final String query = "UPDATE " + TABLE_NAME + " SET numeroDiPresenze = numeroDiPresenze + 1 WHERE cf = " + pilota.getCf(); 
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+            statement.executeUpdate();
+            pilota.setNumeroDiPresenze(pilota.getNumeroDiPresenze()+1);
+            return true;
+        } catch (final SQLIntegrityConstraintViolationException e) {
+            return false;
+        } catch (final SQLException e) {
+            throw new IllegalStateException(e);
+        }
+	}
+	
+	private List<Pilota> readPilotaFromResultSet(final ResultSet set) {
 		List<Pilota> list = new ArrayList<>();
 		try {
             while (set.next()) {
@@ -146,11 +185,8 @@ public class TabellaPilota extends TableImpl<Pilota, String>{
                 final String cognome = set.getString("cognome");
                 final Date dataNascita = Utils.sqlDateToDate(set.getDate("dataNascita"));
                 final String residenza = set.getString("residenza");
-            	int campionatiVinti = set.getInt("campionatiVinti");
-            	int numeroDiPresenze= set.getInt("numeroDiPresenze");;
-            	int gareVinte= set.getInt("gareVinte");;
-                final Pilota dipendente = new Pilota(cf, nome, cognome, dataNascita, residenza, campionatiVinti, numeroDiPresenze, gareVinte);
-                list.add(dipendente);
+            	final Pilota Pilota = new Pilota(cf, nome, cognome, dataNascita, residenza);
+                list.add(Pilota);
             }
         } catch (final SQLException e) {}
         return list;
