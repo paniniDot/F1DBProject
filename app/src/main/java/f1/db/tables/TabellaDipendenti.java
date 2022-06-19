@@ -108,8 +108,7 @@ public class TabellaDipendenti extends TableImpl<Dipendente, String>{
 
 	@Override
 	public boolean update(Dipendente updatedValue) {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
