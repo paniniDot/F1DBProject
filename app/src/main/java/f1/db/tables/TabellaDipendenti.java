@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import f1.db.TableImpl;
-import f1.model.dipendenti.Dipendente;
+import f1.model.Dipendente;
 import f1.utils.Utils;
 
 public class TabellaDipendenti extends TableImpl<Dipendente, String>{

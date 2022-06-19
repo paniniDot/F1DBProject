@@ -1,4 +1,4 @@
-package f1.model.dipendenti;
+package f1.model;
 
 import java.util.Date;
 import java.util.Objects;
@@ -66,6 +66,8 @@ public class Dipendente {
 				&& Objects.equals(dataNascita, other.dataNascita) && Objects.equals(nome, other.nome)
 				&& Objects.equals(residenza, other.residenza);
 	}
+
+
 	
 	
 	
