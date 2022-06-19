@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import f1.db.ConnectionProvider;
 import f1.db.tables.TabellaDipendenti;
-import f1.model.dipendenti.Dipendente;
+import f1.model.Dipendente;
 import f1.utils.Utils;
 
 class TabellaDipendentiTest {
@@ -76,10 +76,9 @@ class TabellaDipendentiTest {
     void findAllTest() {
     	tabDipendenti.save(dip1);
     	tabDipendenti.save(dip2);
-        assertIterableEquals(
-            List.of(dip1, dip2),
-            tabDipendenti.findAll()
-        );
+        List<Dipendente> l = List.of(dip1, dip2);
+        List<Dipendente> l2 = tabDipendenti.findAll();
+        assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
     }
     
     @Test
@@ -88,9 +87,8 @@ class TabellaDipendentiTest {
         tabDipendenti.save(dip1);
     	tabDipendenti.save(dip2);
     	tabDipendenti.save(dip3);
-        assertIterableEquals(
-            List.of(dip1, dip3),
-            tabDipendenti.findByNameAndSurname("Mattia", "Panni")
-        );
+    	List<Dipendente> l = List.of(dip1, dip3);
+    	List<Dipendente> l2 = tabDipendenti.findByNameAndSurname("Mattia", "Panni");
+    	assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
     }
 }
