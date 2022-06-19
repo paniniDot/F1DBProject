@@ -29,13 +29,12 @@ public class TabellaDipendenti extends TableImpl<Dipendente, String>{
 
 	@Override
 	public boolean createTable() {
-		final String query = "CREATE TABLE" + TABLE_NAME + " (" +
+		final String query = "CREATE TABLE " + TABLE_NAME + " (" +
 			"cf CHAR(16) NOT NULL PRIMARY KEY," +
 			"nome VARCHAR(50) NOT NULL," +
 			"cognome VARCHAR(50) NOT NULL," +
 			"dataNascita DATE NOT NULL," +
 			"residenza VARCHAR(200) NOT NULL" +")";
-				
 		try(final Statement statement = super.getConnection().createStatement()) {
 			statement.executeUpdate(query);
 			return true;
@@ -56,7 +55,7 @@ public class TabellaDipendenti extends TableImpl<Dipendente, String>{
 
 	@Override
 	public Optional<Dipendente> findByPrimaryKey(String CF) {
-		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE id = ?";
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE cf = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, CF);
             final ResultSet resultSet = statement.executeQuery();
@@ -78,7 +77,7 @@ public class TabellaDipendenti extends TableImpl<Dipendente, String>{
 	}
 
 	public List<Dipendente> findByNameAndSurname(final String nome, final String cognome) {
-		final String query = "SELECT * FROM " + TABLE_NAME + "WHERE nome = ?" + " AND cognome = ?";
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE nome = ?" + " AND cognome = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, nome);
             statement.setString(2, cognome);
@@ -92,11 +91,12 @@ public class TabellaDipendenti extends TableImpl<Dipendente, String>{
 	@Override
 	public boolean save(Dipendente dipendente) {
 		final String query = "INSERT INTO " + TABLE_NAME + "(cf, nome, cognome, dataNascita, residenza) VALUES (?,?,?,?,?)";
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, dipendente.getCf());
             statement.setString(2, dipendente.getNome());
             statement.setString(3, dipendente.getCognome());
             statement.setDate(4, Utils.dateToSqlDate(dipendente.getDatanascita()));
+            statement.setString(5, dipendente.getResidenza());
             statement.executeUpdate();
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
