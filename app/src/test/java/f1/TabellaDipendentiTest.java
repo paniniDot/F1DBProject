@@ -16,79 +16,82 @@ import f1.model.Dipendente;
 import f1.utils.Utils;
 
 class TabellaDipendentiTest {
-    final static String username = "root";
-    final static String password = "mattimichi";
-    final static String dbName = "f1";
-    
-    final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
-    final static TabellaDipendenti tabDipendenti = new TabellaDipendenti(connectionProvider.getMySQLConnection());
+	final static String username = "root";
+	final static String password = "mattimichi";
+	final static String dbName = "f1";
 
-    final Dipendente dip1 = new Dipendente("PNNMTT01S28D488Z", "Mattia", "Panni", Utils.buildDate(28, 11, 2001).get(), "Via Rinalducci 65, Fano (PU)");
-    final Dipendente dip2 = new Dipendente("FRNRCD01S29E599A", "Riccardo", "Fiorani", Utils.buildDate(12, 1, 2001).get(), "Via Salamini 6, Fano (PU)");
+	final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
+	final static TabellaDipendenti tabDipendenti = new TabellaDipendenti(connectionProvider.getMySQLConnection());
 
-    @BeforeEach
-    void setUp() throws Exception {
-        tabDipendenti.dropTable();
-        tabDipendenti.createTable();
-    }
+	final Dipendente dip1 = new Dipendente("PNNMTT01S28D488Z", "Mattia", "Panni", Utils.buildDate(28, 11, 2001).get(),
+			"Via Rinalducci 65, Fano (PU)");
+	final Dipendente dip2 = new Dipendente("FRNRCD01S29E599A", "Riccardo", "Fiorani",
+			Utils.buildDate(12, 1, 2001).get(), "Via Salamini 6, Fano (PU)");
 
-    @AfterEach
-    void tearDown() throws Exception {
-    	tabDipendenti.dropTable();
-    }
+	@BeforeEach
+	void setUp() throws Exception {
+		tabDipendenti.dropTable();
+		tabDipendenti.createTable();
+	}
 
-    @Test
-    void creationAndDropTest() {
-        assertTrue(tabDipendenti.dropTable());
-        assertFalse(tabDipendenti.dropTable());
-        assertTrue(tabDipendenti.createTable());
-        assertFalse(tabDipendenti.createTable());
-    }
-    
-    @Test
-    void saveTest() {
-        assertTrue(tabDipendenti.save(dip1));
-        assertFalse(tabDipendenti.save(dip1));
-        assertTrue(tabDipendenti.save(dip2));
-    }
-    
-    @Test
-    void updateTest() {
-        assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.update(dip1));
-        assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.update(dip2));
-    }
+	@AfterEach
+	void tearDown() throws Exception {
+		tabDipendenti.dropTable();
+	}
 
-    @Test
-    void deleteTest() {
-    	assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.delete(dip1.getCf()));
-    	assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.delete(dip2.getCf()));
-    }
+	@Test
+	void creationAndDropTest() {
+		assertTrue(tabDipendenti.dropTable());
+		assertFalse(tabDipendenti.dropTable());
+		assertTrue(tabDipendenti.createTable());
+		assertFalse(tabDipendenti.createTable());
+	}
 
-    @Test
-    void findByPrimaryKeyTest() {
-    	tabDipendenti.save(dip1);
-    	tabDipendenti.save(dip2);
-        assertEquals(dip1, tabDipendenti.findByPrimaryKey(dip1.getCf()).orElse(null));
-        assertEquals(dip2, tabDipendenti.findByPrimaryKey(dip2.getCf()).orElse(null));
-    }
+	@Test
+	void saveTest() {
+		assertTrue(tabDipendenti.save(dip1));
+		assertFalse(tabDipendenti.save(dip1));
+		assertTrue(tabDipendenti.save(dip2));
+	}
 
-    @Test
-    void findAllTest() {
-    	tabDipendenti.save(dip1);
-    	tabDipendenti.save(dip2);
-        List<Dipendente> l = List.of(dip1, dip2);
-        List<Dipendente> l2 = tabDipendenti.findAll();
-        assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
-    }
-    
-    @Test
-    void findByNameAndSurnameTest() {
-        final Dipendente dip3 = new Dipendente("ABCDEFGHIL123456", "Mattia", "Panni", Utils.buildDate(11, 10, 1998).get(), "via Spadoni 3");
-        tabDipendenti.save(dip1);
-    	tabDipendenti.save(dip2);
-    	tabDipendenti.save(dip3);
-    	List<Dipendente> l = List.of(dip1, dip3);
-    	List<Dipendente> l2 = tabDipendenti.findByNameAndSurname("Mattia", "Panni");
-    	assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
-    }
+	@Test
+	void updateTest() {
+		assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.update(dip1));
+		assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.update(dip2));
+	}
+
+	@Test
+	void deleteTest() {
+		assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.delete(dip1.getCf()));
+		assertThrows(UnsupportedOperationException.class, () -> tabDipendenti.delete(dip2.getCf()));
+	}
+
+	@Test
+	void findByPrimaryKeyTest() {
+		tabDipendenti.save(dip1);
+		tabDipendenti.save(dip2);
+		assertEquals(dip1, tabDipendenti.findByPrimaryKey(dip1.getCf()).orElse(null));
+		assertEquals(dip2, tabDipendenti.findByPrimaryKey(dip2.getCf()).orElse(null));
+	}
+
+	@Test
+	void findAllTest() {
+		tabDipendenti.save(dip1);
+		tabDipendenti.save(dip2);
+		List<Dipendente> l = List.of(dip1, dip2);
+		List<Dipendente> l2 = tabDipendenti.findAll();
+		assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
+	}
+
+	@Test
+	void findByNameAndSurnameTest() {
+		final Dipendente dip3 = new Dipendente("ABCDEFGHIL123456", "Mattia", "Panni",
+				Utils.buildDate(11, 10, 1998).get(), "via Spadoni 3");
+		tabDipendenti.save(dip1);
+		tabDipendenti.save(dip2);
+		tabDipendenti.save(dip3);
+		List<Dipendente> l = List.of(dip1, dip3);
+		List<Dipendente> l2 = tabDipendenti.findByNameAndSurname("Mattia", "Panni");
+		assertTrue(l.size() == l2.size() && l.containsAll(l2) && l2.containsAll(l));
+	}
 }

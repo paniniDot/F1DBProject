@@ -13,17 +13,10 @@ import java.util.Optional;
 import f1.db.TableImpl;
 import f1.model.Campionato;
 
-<<<<<<< HEAD
 public class TabellaCampionati extends TableImpl<Campionato, String> {
 
 	private static final String TABLE_NAME = "CAMPIONATI";
 
-=======
-public class TabellaCampionati extends TableImpl<Campionato, String>{
-	
-	private static final String TABLE_NAME = "CAMPIONATI";
-	
->>>>>>> 816f891df805b27b2cabc6df61148a1d8c2239c2
 	public TabellaCampionati(final Connection connection) {
 		super(connection);
 	}
@@ -35,19 +28,9 @@ public class TabellaCampionati extends TableImpl<Campionato, String>{
 
 	@Override
 	public boolean createTable() {
-<<<<<<< HEAD
 		final String query = "CREATE TABLE " + TABLE_NAME + " (" + "idCampionato CHAR(16) NOT NULL PRIMARY KEY,"
-				+ "anno INT NOT NULL," + "nome VARCHAR(50) NOT NULL," + "descrizione VARCHAR(50) NOT NULL" + ")";
+				+ "anno INT NOT NULL," + "nome VARCHAR(50) NOT NULL," + "descrizione VARCHAR(500) NOT NULL" + ")";
 		try (final Statement statement = super.getConnection().createStatement()) {
-=======
-		final String query = "CREATE TABLE " + TABLE_NAME + " (" +
-			"idCampionato CHAR(16) NOT NULL PRIMARY KEY," +
-			"anno INT NOT NULL," +
-			"nome VARCHAR(50) NOT NULL," +
-			"descrizione VARCHAR(500) NOT NULL" +
-			")";
-		try(final Statement statement = super.getConnection().createStatement()) {
->>>>>>> 816f891df805b27b2cabc6df61148a1d8c2239c2
 			statement.executeUpdate(query);
 			return true;
 		} catch (final SQLException e) {
@@ -87,16 +70,16 @@ public class TabellaCampionati extends TableImpl<Campionato, String>{
 			throw new IllegalStateException(e);
 		}
 	}
-	
+
 	public Optional<Campionato> findByYear(final int anno) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE anno = ?";
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setInt(1, anno);
-        	final ResultSet resultSet = statement.executeQuery();
-            return readCampionatoFromResultSet(resultSet).stream().findFirst();
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+			statement.setInt(1, anno);
+			final ResultSet resultSet = statement.executeQuery();
+			return readCampionatoFromResultSet(resultSet).stream().findFirst();
+		} catch (final SQLException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
