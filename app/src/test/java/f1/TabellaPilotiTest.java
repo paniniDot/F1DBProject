@@ -93,9 +93,50 @@ class TabellaPilotiTest {
     void statisticsTest() {
     	tabPiloti.save(pil1);
     	tabPiloti.save(pil2);
-    	System.out.println(tabPiloti.printPilotStatistics(pil1).orElse(null));
-    	assertEquals(tabPiloti.printPilotStatistics(pil1).orElse(null), "Mattia Panni 0 0 0");
-    	assertEquals(tabPiloti.printPilotStatistics(pil2).orElse(null), "Riccardo Fiorani 0 0 0");
+    	assertEquals(tabPiloti.printPilotStatistics(pil1).orElse(null), pil1);
+    	assertEquals(tabPiloti.printPilotStatistics(pil2).orElse(null), pil2);
+    }
+    
+    @Test
+    void IncrementNumeroPresenzeTest() {
+    	tabPiloti.save(pil1);
+    	tabPiloti.updatePresenzeInGara(pil1);
+    	tabPiloti.updatePresenzeInGara(pil1);
+    	tabPiloti.updatePresenzeInGara(pil1);
+    	tabPiloti.save(pil2);
+    	tabPiloti.updatePresenzeInGara(pil2);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getNumeroDiPresenze(), pil1.getNumeroDiPresenze());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getNumeroDiPresenze(), 3);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getNumeroDiPresenze(), pil2.getNumeroDiPresenze());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getNumeroDiPresenze(), 1);
+    }
+    
+    @Test
+    void IncrementGareVinteTest() {
+    	tabPiloti.save(pil1);
+    	tabPiloti.updateGareVinte(pil1);
+    	tabPiloti.updateGareVinte(pil1);
+    	tabPiloti.updateGareVinte(pil1);
+    	tabPiloti.save(pil2);
+    	tabPiloti.updateGareVinte(pil2);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getGareVinte(), pil1.getGareVinte());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getGareVinte(), 3);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getGareVinte(), pil2.getGareVinte());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getGareVinte(), 1);
+    }
+    
+    @Test
+    void IncrementCampionatiVintiTest() {
+    	tabPiloti.save(pil1);
+    	tabPiloti.updateCampionatiVinti(pil1);
+    	tabPiloti.updateCampionatiVinti(pil1);
+    	tabPiloti.updateCampionatiVinti(pil1);
+    	tabPiloti.save(pil2);
+    	tabPiloti.updateCampionatiVinti(pil2);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getCampionatiVinti(), pil1.getCampionatiVinti());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil1.getCf()).get().getCampionatiVinti(), 3);
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getCampionatiVinti(), pil2.getCampionatiVinti());
+    	assertEquals(tabPiloti.findByPrimaryKey(pil2.getCf()).get().getCampionatiVinti(), 1);
     }
     
 }
