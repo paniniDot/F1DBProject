@@ -13,17 +13,17 @@ import java.util.Optional;
 import f1.db.TableImpl;
 import f1.model.Campionato;
 
-public class TabellaCampionato extends TableImpl<Campionato, String>{
+public class TabellaCampionati extends TableImpl<Campionato, String>{
 	
 	private static final String TABLE_NAME = "CAMPIONATO";
 	
-	public TabellaCampionato(final Connection connection) {
+	public TabellaCampionati(final Connection connection) {
 		super(connection);
 	}
 	
 	@Override
 	public String getTableName() {
-		return TabellaCampionato.TABLE_NAME;
+		return TabellaCampionati.TABLE_NAME;
 	}
 
 	@Override

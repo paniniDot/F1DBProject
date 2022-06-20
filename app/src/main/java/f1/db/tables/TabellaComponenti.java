@@ -13,17 +13,17 @@ import java.util.Optional;
 import f1.db.TableImpl;
 import f1.model.Componente;
 
-public class TabellaComponente extends TableImpl<Componente, String>{
+public class TabellaComponenti extends TableImpl<Componente, String>{
 	
 	private static final String TABLE_NAME = "COMPONENTE";
 	
-	public TabellaComponente(final Connection connection) {
+	public TabellaComponenti(final Connection connection) {
 		super(connection);
 	}
 	
 	@Override
 	public String getTableName() {
-		return TabellaComponente.TABLE_NAME;
+		return TabellaComponenti.TABLE_NAME;
 	}
 
 	@Override
