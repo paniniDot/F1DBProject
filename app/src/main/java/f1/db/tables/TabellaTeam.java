@@ -17,8 +17,7 @@ import f1.utils.Utils;
 
 public class TabellaTeam extends TableImpl<Team, String>{
 	
-
-	private static final String TABLE_NAME = "PILOTI";
+	private static final String TABLE_NAME = "TEAM";
 	
 	public TabellaTeam(final Connection connection) {
 		super(connection);

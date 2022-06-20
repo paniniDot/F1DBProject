@@ -53,10 +53,10 @@ public class TabellaCampionato extends TableImpl<Campionato, String>{
 	}
 
 	@Override
-	public Optional<Campionato> findByPrimaryKey(String CF) {
+	public Optional<Campionato> findByPrimaryKey(String IdCampionato) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idCampionato = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, CF);
+            statement.setString(1, IdCampionato);
             final ResultSet resultSet = statement.executeQuery();
             return readCampionatoFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {

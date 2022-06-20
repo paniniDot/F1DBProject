@@ -9,7 +9,6 @@ public class Campionato {
 	private final String descrizione;
 	
 	public Campionato(String idCampionato, int anno, String nome, String descrizione) {
-		super();
 		this.idCampionato = idCampionato;
 		this.anno = anno;
 		this.nome = nome;
