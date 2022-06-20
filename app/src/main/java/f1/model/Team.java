@@ -8,28 +8,17 @@ public class Team {
 	private final String nome;
 	private final String sedeCentrale;
 	private final java.util.Date dataEsordio;
-	private String residenza;
 	private int gareVinte;
 	private int campionatiVinti;
 	
-	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio, String residenza, int gareVinte,
+	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio, int gareVinte,
 			int campionatiVinti) {
-		super();
 		this.idTeam = idTeam;
 		this.nome = nome;
 		this.sedeCentrale = sedeCentrale;
 		this.dataEsordio = dataEsordio;
-		this.residenza = residenza;
 		this.gareVinte = gareVinte;
 		this.campionatiVinti = campionatiVinti;
-	}
-
-	public String getResidenza() {
-		return residenza;
-	}
-
-	public void setResidenza(String residenza) {
-		this.residenza = residenza;
 	}
 
 	public int getGareVinte() {
@@ -67,13 +56,13 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team [idTeam=" + idTeam + ", nome=" + nome + ", sedeCentrale=" + sedeCentrale + ", dataEsordio="
-				+ dataEsordio + ", residenza=" + residenza + ", gareVinte=" + gareVinte + ", campionatiVinti="
+				+ dataEsordio + ", gareVinte=" + gareVinte + ", campionatiVinti="
 				+ campionatiVinti + "]";
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(campionatiVinti, dataEsordio, gareVinte, idTeam, nome, residenza, sedeCentrale);
+		return Objects.hash(campionatiVinti, dataEsordio, gareVinte, idTeam, nome, sedeCentrale);
 	}
 
 	@Override
@@ -87,8 +76,7 @@ public class Team {
 		Team other = (Team) obj;
 		return campionatiVinti == other.campionatiVinti && Objects.equals(dataEsordio, other.dataEsordio)
 				&& gareVinte == other.gareVinte && Objects.equals(idTeam, other.idTeam)
-				&& Objects.equals(nome, other.nome) && Objects.equals(residenza, other.residenza)
-				&& Objects.equals(sedeCentrale, other.sedeCentrale);
+				&& Objects.equals(nome, other.nome) && Objects.equals(sedeCentrale, other.sedeCentrale);
 	}
 	
 }
