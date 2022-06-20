@@ -9,8 +9,9 @@ public class Dipendente {
 	private final String cognome;
 	private final java.util.Date dataNascita;
 	private String residenza;
-	
-	public Dipendente(final String cf, final String nome, final String cognome, final Date dataNascita, final String residenza) {
+
+	public Dipendente(final String cf, final String nome, final String cognome, final Date dataNascita,
+			final String residenza) {
 		this.cf = cf;
 		this.nome = nome;
 		this.cognome = cognome;
@@ -18,30 +19,30 @@ public class Dipendente {
 		this.residenza = residenza;
 	}
 
-	public String getCf(){
+	public String getCf() {
 		return cf;
 	}
 
-	public String getNome(){
+	public String getNome() {
 		return nome;
 	}
 
-	public String getCognome(){
+	public String getCognome() {
 		return cognome;
 	}
 
-	public java.util.Date getDatanascita(){
+	public java.util.Date getDatanascita() {
 		return dataNascita;
 	}
 
-	public String getResidenza(){
+	public String getResidenza() {
 		return residenza;
 	}
 
-	public void setResidenza(String residenza){
-		this.residenza=residenza;
+	public void setResidenza(String residenza) {
+		this.residenza = residenza;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Dipendente [cf=" + cf + ", nome=" + nome + ", cognome=" + cognome + ", dataNascita=" + dataNascita
@@ -67,9 +68,4 @@ public class Dipendente {
 				&& Objects.equals(residenza, other.residenza);
 	}
 
-
-	
-	
-	
-	
 }

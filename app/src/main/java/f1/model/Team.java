@@ -10,9 +10,8 @@ public class Team {
 	private final java.util.Date dataEsordio;
 	private int gareVinte;
 	private int campionatiVinti;
-	
-	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio, int gareVinte,
-			int campionatiVinti) {
+
+	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio, int gareVinte, int campionatiVinti) {
 		this.idTeam = idTeam;
 		this.nome = nome;
 		this.sedeCentrale = sedeCentrale;
@@ -20,7 +19,7 @@ public class Team {
 		this.gareVinte = gareVinte;
 		this.campionatiVinti = campionatiVinti;
 	}
-	
+
 	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio) {
 		this.idTeam = idTeam;
 		this.nome = nome;
@@ -65,8 +64,7 @@ public class Team {
 	@Override
 	public String toString() {
 		return "Team [idTeam=" + idTeam + ", nome=" + nome + ", sedeCentrale=" + sedeCentrale + ", dataEsordio="
-				+ dataEsordio + ", gareVinte=" + gareVinte + ", campionatiVinti="
-				+ campionatiVinti + "]";
+				+ dataEsordio + ", gareVinte=" + gareVinte + ", campionatiVinti=" + campionatiVinti + "]";
 	}
 
 	@Override
@@ -87,5 +85,5 @@ public class Team {
 				&& gareVinte == other.gareVinte && Objects.equals(idTeam, other.idTeam)
 				&& Objects.equals(nome, other.nome) && Objects.equals(sedeCentrale, other.sedeCentrale);
 	}
-	
+
 }
