@@ -160,7 +160,6 @@ public class TabellaPiloti extends TableImpl<Pilota, String> {
 
 	public boolean updatePresenzeInGara(Pilota pilota) {
 		final String query = "UPDATE " + TABLE_NAME + " SET numeroDiPresenze = numeroDiPresenze + 1 WHERE cf = ?";
-		System.out.println(query);
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
 			statement.setString(1, pilota.getCf());
 			statement.executeUpdate();
