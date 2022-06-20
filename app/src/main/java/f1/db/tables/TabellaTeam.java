@@ -89,7 +89,6 @@ public class TabellaTeam extends TableImpl<Team, String> {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idTeam = ?";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
 			statement.setString(1, team.getIdTeam());
-			System.out.println(statement);
 			final ResultSet resultSet = statement.executeQuery();
 			return readTeamFromResultSet(resultSet).stream().findFirst();
 		} catch (final SQLException e) {
@@ -108,7 +107,6 @@ public class TabellaTeam extends TableImpl<Team, String> {
 			statement.setDate(4, Utils.dateToSqlDate(team.getDataEsordio()));
 			statement.setInt(5, 0);
 			statement.setInt(6, 0);
-			System.out.println(statement);
 			statement.executeUpdate();
 			return true;
 		} catch (final SQLIntegrityConstraintViolationException e) {
