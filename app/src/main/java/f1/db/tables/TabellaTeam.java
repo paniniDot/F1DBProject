@@ -36,7 +36,6 @@ public class TabellaTeam extends TableImpl<Team, String>{
 			"nome VARCHAR(50) NOT NULL," +
 			"sedeCentrale VARCHAR(50) NOT NULL," +
 			"dataEsordio DATE NOT NULL," +
-			"residenza VARCHAR(200) NOT NULL," +
 			"gareVinte INT NOT NULL," +
 			"campionatiVinti INT NOT NULL" +
 			")";
@@ -112,9 +111,8 @@ public class TabellaTeam extends TableImpl<Team, String>{
             statement.setString(2, team.getNome());
             statement.setString(3, team.getSedeCentrale());
             statement.setDate(4, Utils.dateToSqlDate(team.getDataEsordio()));
-            statement.setString(5, team.getResidenza());
+            statement.setInt(5, 0);
             statement.setInt(6, 0);
-            statement.setInt(7, 0);
             System.out.println(statement);
             statement.executeUpdate();
             return true;
@@ -136,9 +134,10 @@ public class TabellaTeam extends TableImpl<Team, String>{
 	}
 	
 	public boolean updateGareVinte(Team team) {
-		final String query = "UPDATE " + TABLE_NAME + " SET gareVinte = gareVinte + 1 WHERE idTeam = " + team.getIdTeam(); 
+		final String query = "UPDATE " + TABLE_NAME + " SET gareVinte = gareVinte + 1 WHERE idTeam = ?"; 
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.executeUpdate();
+            statement.setString(1, team.getIdTeam());
+			statement.executeUpdate();
             team.setGareVinte(team.getGareVinte()+1);
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -149,9 +148,10 @@ public class TabellaTeam extends TableImpl<Team, String>{
 	}
 	
 	public boolean updateCampionatiVinti(Team team) {
-		final String query = "UPDATE " + TABLE_NAME + " SET campionatiVinti = campionatiVinti + 1 WHERE idTeam = " + team.getIdTeam(); 
+		final String query = "UPDATE " + TABLE_NAME + " SET campionatiVinti = campionatiVinti + 1 WHERE idTeam = ?"; 
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.executeUpdate();
+			statement.setString(1, team.getIdTeam());
+			statement.executeUpdate();
             team.setCampionatiVinti(team.getCampionatiVinti()+1);
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -170,10 +170,9 @@ public class TabellaTeam extends TableImpl<Team, String>{
                 final String nome = set.getString("nome");
                 final String sedeCentrale = set.getString("sedeCentrale");
                 final Date dataEsordio = Utils.sqlDateToDate(set.getDate("dataEsordio"));
-                final String residenza = set.getString("residenza");
                 final int gareVinte = set.getInt("gareVinte");
                 final int campionatiVinti = set.getInt("campionatiVinti");
-            	final Team Team = new Team(idTeam, nome, sedeCentrale, dataEsordio, residenza, gareVinte, campionatiVinti);
+            	final Team Team = new Team(idTeam, nome, sedeCentrale, dataEsordio, gareVinte, campionatiVinti);
                 list.add(Team);
             }
         } catch (final SQLException e) {}
