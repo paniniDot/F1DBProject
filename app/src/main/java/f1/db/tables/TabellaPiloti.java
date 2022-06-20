@@ -94,10 +94,9 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
 	}
 	
 	public Optional<Pilota> printPilotStatistics(final Pilota pilota) {
-		final String query = "SELECT nome, cognome, campionatiVinti, numeroDiPresenze, gareVinte FROM " + TABLE_NAME + " WHERE cf = ?";
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE cf = ?";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, pilota.getCf());
-            System.out.println(statement);
             final ResultSet resultSet = statement.executeQuery();
             return readPilotaFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {
@@ -117,7 +116,6 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
             statement.setInt(6, 0);
             statement.setInt(7, 0);
             statement.setInt(8, 0);
-            System.out.println(statement);
             statement.executeUpdate();
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -138,9 +136,10 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
 	}
 	
 	public boolean updateGareVinte(Pilota pilota) {
-		final String query = "UPDATE " + TABLE_NAME + " SET gareVinte = gareVinte + 1 WHERE cf = " + pilota.getCf(); 
+		final String query = "UPDATE " + TABLE_NAME + " SET gareVinte = gareVinte + 1 WHERE cf = ?"; 
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.executeUpdate();
+			statement.setString(1, pilota.getCf());
+			statement.executeUpdate();
             pilota.setGareVinte(pilota.getGareVinte()+1);
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -151,9 +150,10 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
 	}
 	
 	public boolean updateCampionatiVinti(Pilota pilota) {
-		final String query = "UPDATE " + TABLE_NAME + " SET campionatiVinti = campionatiVinti + 1 WHERE cf = " + pilota.getCf(); 
+		final String query = "UPDATE " + TABLE_NAME + " SET campionatiVinti = campionatiVinti + 1 WHERE cf = ?"; 
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.executeUpdate();
+			statement.setString(1, pilota.getCf());
+			statement.executeUpdate();
             pilota.setCampionatiVinti(pilota.getCampionatiVinti()+1);
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -164,9 +164,11 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
 	}
 	
 	public boolean updatePresenzeInGara(Pilota pilota) {
-		final String query = "UPDATE " + TABLE_NAME + " SET numeroDiPresenze = numeroDiPresenze + 1 WHERE cf = " + pilota.getCf(); 
+		final String query = "UPDATE " + TABLE_NAME + " SET numeroDiPresenze = numeroDiPresenze + 1 WHERE cf = ?"; 
+		System.out.println(query);
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.executeUpdate();
+            statement.setString(1, pilota.getCf());
+			statement.executeUpdate();
             pilota.setNumeroDiPresenze(pilota.getNumeroDiPresenze()+1);
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -185,8 +187,11 @@ public class TabellaPiloti extends TableImpl<Pilota, String>{
                 final String cognome = set.getString("cognome");
                 final Date dataNascita = Utils.sqlDateToDate(set.getDate("dataNascita"));
                 final String residenza = set.getString("residenza");
-            	final Pilota Pilota = new Pilota(cf, nome, cognome, dataNascita, residenza);
-                list.add(Pilota);
+                final int campionatiVinti = set.getInt("campionatiVinti");
+                final int numeroDiPresenze = set.getInt("numeroDiPresenze");
+                final int gareVinte = set.getInt("gareVinte");
+            	final Pilota pilota = new Pilota(cf, nome, cognome, dataNascita, residenza, campionatiVinti, numeroDiPresenze, gareVinte);
+                list.add(pilota);
             }
         } catch (final SQLException e) {}
         return list;
