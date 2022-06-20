@@ -89,7 +89,7 @@ public class TabellaCampionato extends TableImpl<Campionato, String>{
 	
 	@Override
 	public boolean save(Campionato campionato) {
-		final String query = "INSERT INTO " + TABLE_NAME + "(idCampionato, nome, stato) VALUES (?,?,?)";
+		final String query = "INSERT INTO " + TABLE_NAME + "(idCampionato, nome, stato, descrizione) VALUES (?,?,?,?)";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, campionato.getIdCampionato());
             statement.setInt(2, campionato.getAnno());
