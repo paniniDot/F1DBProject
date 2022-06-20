@@ -20,6 +20,15 @@ public class Team {
 		this.gareVinte = gareVinte;
 		this.campionatiVinti = campionatiVinti;
 	}
+	
+	public Team(String idTeam, String nome, String sedeCentrale, Date dataEsordio) {
+		this.idTeam = idTeam;
+		this.nome = nome;
+		this.sedeCentrale = sedeCentrale;
+		this.dataEsordio = dataEsordio;
+		this.gareVinte = 0;
+		this.campionatiVinti = 0;
+	}
 
 	public int getGareVinte() {
 		return gareVinte;
