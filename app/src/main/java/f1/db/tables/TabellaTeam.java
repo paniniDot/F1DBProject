@@ -105,7 +105,7 @@ public class TabellaTeam extends TableImpl<Team, String>{
 	
 	@Override
 	public boolean save(Team team) {
-		final String query = "INSERT INTO " + TABLE_NAME + "(idTeam, nome, sedeCentrale, dataEsordio, residenza, gareVinte, campionatiVinti ) VALUES (?,?,?,?,?,?,?)";
+		final String query = "INSERT INTO " + TABLE_NAME + "(idTeam, nome, sedeCentrale, dataEsordio, gareVinte, campionatiVinti) VALUES (?,?,?,?,?,?)";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, team.getIdTeam());
             statement.setString(2, team.getNome());
