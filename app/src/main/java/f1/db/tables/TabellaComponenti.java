@@ -13,10 +13,17 @@ import java.util.Optional;
 import f1.db.TableImpl;
 import f1.model.Componente;
 
+<<<<<<< HEAD
 public class TabellaComponenti extends TableImpl<Componente, String> {
 
 	private static final String TABLE_NAME = "COMPONENTE";
 
+=======
+public class TabellaComponenti extends TableImpl<Componente, String>{
+	
+	private static final String TABLE_NAME = "COMPONENTI";
+	
+>>>>>>> 816f891df805b27b2cabc6df61148a1d8c2239c2
 	public TabellaComponenti(final Connection connection) {
 		super(connection);
 	}
