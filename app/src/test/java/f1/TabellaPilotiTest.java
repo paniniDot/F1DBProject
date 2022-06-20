@@ -14,7 +14,7 @@ import f1.utils.Utils;
 
 class TabellaPilotiTest {
     final static String username = "root";
-    final static String password = "mattimichi";
+    final static String password = "frnrcr15";
     final static String dbName = "f1";
     
     final static ConnectionProvider connectionProvider = new ConnectionProvider(username, password, dbName);
