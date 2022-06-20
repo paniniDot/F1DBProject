@@ -15,7 +15,7 @@ import f1.model.Campionato;
 
 public class TabellaCampionati extends TableImpl<Campionato, String> {
 
-	private static final String TABLE_NAME = "CAMPIONATO";
+	private static final String TABLE_NAME = "CAMPIONATI";
 
 	public TabellaCampionati(final Connection connection) {
 		super(connection);
