@@ -11,27 +11,28 @@ import java.util.List;
 import java.util.Optional;
 
 import f1.db.TableImpl;
-import f1.model.Sponsor;
+import f1.model.Campionato;
 
-public class TabellaSponsor  extends TableImpl<Sponsor, String>{
+public class TabellaCampionato extends TableImpl<Campionato, String>{
 	
-	private static final String TABLE_NAME = "SPONSOR";
+	private static final String TABLE_NAME = "CAMPIONATO";
 	
-	public TabellaSponsor(final Connection connection) {
+	public TabellaCampionato(final Connection connection) {
 		super(connection);
 	}
 	
 	@Override
 	public String getTableName() {
-		return TabellaSponsor.TABLE_NAME;
+		return TabellaCampionato.TABLE_NAME;
 	}
 
 	@Override
 	public boolean createTable() {
 		final String query = "CREATE TABLE " + TABLE_NAME + " (" +
-			"idSponsor CHAR(16) NOT NULL PRIMARY KEY," +
+			"idCampionato CHAR(16) NOT NULL PRIMARY KEY," +
+			"anno INT NOT NULL," +
 			"nome VARCHAR(50) NOT NULL," +
-			"stato VARCHAR(50) NOT NULL" +
+			"descrizione VARCHAR(50) NOT NULL" +
 			")";
 		try(final Statement statement = super.getConnection().createStatement()) {
 			statement.executeUpdate(query);
@@ -52,34 +53,34 @@ public class TabellaSponsor  extends TableImpl<Sponsor, String>{
 	}
 
 	@Override
-	public Optional<Sponsor> findByPrimaryKey(String CF) {
-		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idSponsor = ?";
+	public Optional<Campionato> findByPrimaryKey(String CF) {
+		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idCampionato = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, CF);
             final ResultSet resultSet = statement.executeQuery();
-            return readSponsorFromResultSet(resultSet).stream().findFirst();
+            return readCampionatoFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
 	}
 	
-	public List<Sponsor> findByName(final String nome) {
+	public List<Campionato> findByName(final String nome) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE nome = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             statement.setString(1, nome);
         	final ResultSet resultSet = statement.executeQuery();
-            return readSponsorFromResultSet(resultSet);
+            return readCampionatoFromResultSet(resultSet);
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
 	}
 
 	@Override
-	public List<Sponsor> findAll() {
+	public List<Campionato> findAll() {
 		final String query = "SELECT * FROM " + TABLE_NAME;
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
             final ResultSet resultSet = statement.executeQuery();
-            return readSponsorFromResultSet(resultSet);
+            return readCampionatoFromResultSet(resultSet);
         } catch (final SQLException e) {
             throw new IllegalStateException(e);
         }
@@ -87,12 +88,13 @@ public class TabellaSponsor  extends TableImpl<Sponsor, String>{
 	
 	
 	@Override
-	public boolean save(Sponsor sponsor) {
-		final String query = "INSERT INTO " + TABLE_NAME + "(idSponsor, nome, stato) VALUES (?,?,?)";
+	public boolean save(Campionato campionato) {
+		final String query = "INSERT INTO " + TABLE_NAME + "(idCampionato, nome, stato) VALUES (?,?,?)";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, sponsor.getIdSponsor());
-            statement.setString(2, sponsor.getNome());
-            statement.setString(3, sponsor.getStato());
+            statement.setString(1, campionato.getIdCampionato());
+            statement.setInt(2, campionato.getAnno());
+            statement.setString(3, campionato.getNome());
+            statement.setString(4, campionato.getDescrizione());
             statement.executeUpdate();
             return true;
         } catch (final SQLIntegrityConstraintViolationException e) {
@@ -103,7 +105,7 @@ public class TabellaSponsor  extends TableImpl<Sponsor, String>{
 	}
 
 	@Override
-	public boolean update(Sponsor updatedValue) {
+	public boolean update(Campionato updatedValue) {
 		throw new UnsupportedOperationException(); 
 	}	
 
@@ -113,18 +115,18 @@ public class TabellaSponsor  extends TableImpl<Sponsor, String>{
 	}
 	
 	
-	private List<Sponsor> readSponsorFromResultSet(final ResultSet set) {
-		List<Sponsor> list = new ArrayList<>();
+	private List<Campionato> readCampionatoFromResultSet(final ResultSet set) {
+		List<Campionato> list = new ArrayList<>();
 		try {
             while (set.next()) {
-                final String idSponsor = set.getString("idSponsor");
+                final String idCampionato = set.getString("idCampionato");
+                final int anno = set.getInt("anno");
                 final String nome = set.getString("nome");
-                final String stato = set.getString("stato");
-            	final Sponsor sponsor = new Sponsor(idSponsor, nome, stato);
-                list.add(sponsor);
+                final String descrizione = set.getString("descrizione");
+            	final Campionato campionato = new Campionato(idCampionato, anno , nome, descrizione);
+                list.add(campionato);
             }
         } catch (final SQLException e) {}
         return list;
 	}
-
 }
