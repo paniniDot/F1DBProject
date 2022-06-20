@@ -12,6 +12,7 @@ public class Controller {
 
 	@FXML
 	private Button btnNuovaAuto;
+
 	public void handleBtnNuovaAuto(ActionEvent action) {
 		try {
 			Parent root = FXMLLoader.load(ClassLoader.getSystemResource("layouts/componentiAuto.fxml"));
@@ -19,9 +20,9 @@ public class Controller {
 			Stage stage = new Stage();
 			stage.setScene(scene);
 			stage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

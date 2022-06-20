@@ -14,24 +14,23 @@ public class MainMenu extends Application {
 			Scene scene = new Scene(root);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public static void run(final String[] args) {
-        launch(args);
-    }
+		launch(args);
+	}
 
-    public static final class Main {
-        private Main() {
-            // the constructor will never be called directly.
-        }
+	public static final class Main {
+		private Main() {
+			// the constructor will never be called directly.
+		}
 
-        public static void main(final String... args) {
-            MainMenu.run(args);
-        }
-    }
-	
+		public static void main(final String... args) {
+			MainMenu.run(args);
+		}
+	}
+
 }
