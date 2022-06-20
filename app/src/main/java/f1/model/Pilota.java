@@ -12,10 +12,9 @@ public class Pilota {
 	private int campionatiVinti;
 	private int numeroDiPresenze;
 	private int gareVinte;
-	
 
-
-	public Pilota(String cf, String nome, String cognome, Date dataNascita, String residenza, int campionatiVinti, int numeroDiPresenze, int gareVinte) {
+	public Pilota(String cf, String nome, String cognome, Date dataNascita, String residenza, int campionatiVinti,
+			int numeroDiPresenze, int gareVinte) {
 		super();
 		this.cf = cf;
 		this.nome = nome;
@@ -26,7 +25,7 @@ public class Pilota {
 		this.numeroDiPresenze = numeroDiPresenze;
 		this.gareVinte = gareVinte;
 	}
-	
+
 	public Pilota(String cf, String nome, String cognome, Date dataNascita, String residenza) {
 		super();
 		this.cf = cf;
@@ -39,28 +38,28 @@ public class Pilota {
 		this.gareVinte = 0;
 	}
 
-	public String getCf(){
+	public String getCf() {
 		return cf;
 	}
 
-	public String getNome(){
+	public String getNome() {
 		return nome;
 	}
 
-	public String getCognome(){
+	public String getCognome() {
 		return cognome;
 	}
 
-	public java.util.Date getDatanascita(){
+	public java.util.Date getDatanascita() {
 		return dataNascita;
 	}
 
-	public String getResidenza(){
+	public String getResidenza() {
 		return residenza;
 	}
 
-	public void setResidenza(String residenza){
-		this.residenza=residenza;
+	public void setResidenza(String residenza) {
+		this.residenza = residenza;
 	}
 
 	public int getCampionatiVinti() {
@@ -91,7 +90,6 @@ public class Pilota {
 		return dataNascita;
 	}
 
-	
 	@Override
 	public String toString() {
 		return "Pilota [cf=" + cf + ", nome=" + nome + ", cognome=" + cognome + ", dataNascita=" + dataNascita
@@ -118,10 +116,5 @@ public class Pilota {
 				&& gareVinte == other.gareVinte && Objects.equals(nome, other.nome)
 				&& numeroDiPresenze == other.numeroDiPresenze && Objects.equals(residenza, other.residenza);
 	}
-	
-	
-	
-
-
 
 }

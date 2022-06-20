@@ -13,14 +13,14 @@ import java.util.Optional;
 import f1.db.TableImpl;
 import f1.model.Componente;
 
-public class TabellaComponenti extends TableImpl<Componente, String>{
-	
+public class TabellaComponenti extends TableImpl<Componente, String> {
+
 	private static final String TABLE_NAME = "COMPONENTE";
-	
+
 	public TabellaComponenti(final Connection connection) {
 		super(connection);
 	}
-	
+
 	@Override
 	public String getTableName() {
 		return TabellaComponenti.TABLE_NAME;
@@ -28,12 +28,9 @@ public class TabellaComponenti extends TableImpl<Componente, String>{
 
 	@Override
 	public boolean createTable() {
-		final String query = "CREATE TABLE " + TABLE_NAME + " (" +
-			"idComponente CHAR(16) NOT NULL PRIMARY KEY," +
-			"descrizione VARCHAR(50) NOT NULL," +
-			"prezzoUnitario INT NOT NULL" +
-			")";
-		try(final Statement statement = super.getConnection().createStatement()) {
+		final String query = "CREATE TABLE " + TABLE_NAME + " (" + "idComponente CHAR(16) NOT NULL PRIMARY KEY,"
+				+ "descrizione VARCHAR(50) NOT NULL," + "prezzoUnitario INT NOT NULL" + ")";
+		try (final Statement statement = super.getConnection().createStatement()) {
 			statement.executeUpdate(query);
 			return true;
 		} catch (final SQLException e) {
@@ -44,75 +41,74 @@ public class TabellaComponenti extends TableImpl<Componente, String>{
 	@Override
 	public boolean dropTable() {
 		try (final Statement statement = super.getConnection().createStatement()) {
-            statement.executeUpdate("DROP TABLE " + TABLE_NAME);
-            return true;
-        } catch (final SQLException e) {
-            return false;
-        }
+			statement.executeUpdate("DROP TABLE " + TABLE_NAME);
+			return true;
+		} catch (final SQLException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public Optional<Componente> findByPrimaryKey(String idComponente) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idComponente = ?";
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, idComponente);
-            final ResultSet resultSet = statement.executeQuery();
-            return readComponenteFromResultSet(resultSet).stream().findFirst();
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+			statement.setString(1, idComponente);
+			final ResultSet resultSet = statement.executeQuery();
+			return readComponenteFromResultSet(resultSet).stream().findFirst();
+		} catch (final SQLException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
 	public List<Componente> findAll() {
 		final String query = "SELECT * FROM " + TABLE_NAME;
-        try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            final ResultSet resultSet = statement.executeQuery();
-            return readComponenteFromResultSet(resultSet);
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
+		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
+			final ResultSet resultSet = statement.executeQuery();
+			return readComponenteFromResultSet(resultSet);
+		} catch (final SQLException e) {
+			throw new IllegalStateException(e);
+		}
 	}
-	
-	
+
 	@Override
 	public boolean save(Componente componente) {
 		final String query = "INSERT INTO " + TABLE_NAME + "(idComponente, descrizione, prezzoUnitario) VALUES (?,?,?)";
 		try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, componente.getIdComponente());
-            statement.setString(2, componente.getDescrizione());
-            statement.setInt(3, componente.getPrezzoUnitario());
-            statement.executeUpdate();
-            return true;
-        } catch (final SQLIntegrityConstraintViolationException e) {
-            return false;
-        } catch (final SQLException e) {
-            throw new IllegalStateException(e);
-        }
+			statement.setString(1, componente.getIdComponente());
+			statement.setString(2, componente.getDescrizione());
+			statement.setInt(3, componente.getPrezzoUnitario());
+			statement.executeUpdate();
+			return true;
+		} catch (final SQLIntegrityConstraintViolationException e) {
+			return false;
+		} catch (final SQLException e) {
+			throw new IllegalStateException(e);
+		}
 	}
 
 	@Override
 	public boolean update(Componente updatedValue) {
-		throw new UnsupportedOperationException(); 
-	}	
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public boolean delete(String primaryKey) {
 		throw new UnsupportedOperationException();
 	}
-	
-	
+
 	private List<Componente> readComponenteFromResultSet(final ResultSet set) {
 		List<Componente> list = new ArrayList<>();
 		try {
-            while (set.next()) {
-                final String idComponente = set.getString("idComponente");
-                final String descrizione = set.getString("descrizione");
-                final int prezzoUnitario = set.getInt("prezzoUnitario");
-            	final Componente componente = new Componente(idComponente, descrizione, prezzoUnitario);
-            	list.add(componente);
-            }
-        } catch (final SQLException e) {}
-        return list;
+			while (set.next()) {
+				final String idComponente = set.getString("idComponente");
+				final String descrizione = set.getString("descrizione");
+				final int prezzoUnitario = set.getInt("prezzoUnitario");
+				final Componente componente = new Componente(idComponente, descrizione, prezzoUnitario);
+				list.add(componente);
+			}
+		} catch (final SQLException e) {
+		}
+		return list;
 	}
 }

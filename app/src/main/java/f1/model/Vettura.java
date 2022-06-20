@@ -3,12 +3,12 @@ package f1.model;
 import java.util.Objects;
 
 public class Vettura {
-	
+
 	private final String idVettura;
 	private final String nome;
 	private final int annoDiProduzione;
 	private final String idTeamProprietario;
-	
+
 	public Vettura(String idVettura, String nome, int annoDiProduzione, String idTeamProprietario) {
 		this.idVettura = idVettura;
 		this.nome = nome;
@@ -56,5 +56,5 @@ public class Vettura {
 				&& Objects.equals(idTeamProprietario, other.idTeamProprietario)
 				&& Objects.equals(idVettura, other.idVettura) && Objects.equals(nome, other.nome);
 	}
-	
+
 }
