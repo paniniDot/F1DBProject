@@ -15,7 +15,7 @@ import f1.model.Componente;
 
 public class TabellaComponenti extends TableImpl<Componente, String>{
 	
-	private static final String TABLE_NAME = "COMPONENTE";
+	private static final String TABLE_NAME = "COMPONENTI";
 	
 	public TabellaComponenti(final Connection connection) {
 		super(connection);
