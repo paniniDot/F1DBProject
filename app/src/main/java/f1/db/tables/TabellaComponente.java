@@ -52,10 +52,10 @@ public class TabellaComponente extends TableImpl<Componente, String>{
 	}
 
 	@Override
-	public Optional<Componente> findByPrimaryKey(String CF) {
+	public Optional<Componente> findByPrimaryKey(String idComponente) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idComponente = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, CF);
+            statement.setString(1, idComponente);
             final ResultSet resultSet = statement.executeQuery();
             return readComponenteFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {

@@ -52,10 +52,10 @@ public class TabellaSponsor  extends TableImpl<Sponsor, String>{
 	}
 
 	@Override
-	public Optional<Sponsor> findByPrimaryKey(String CF) {
+	public Optional<Sponsor> findByPrimaryKey(String idSponsor) {
 		final String query = "SELECT * FROM " + TABLE_NAME + " WHERE idSponsor = ?";
         try (final PreparedStatement statement = super.getConnection().prepareStatement(query)) {
-            statement.setString(1, CF);
+            statement.setString(1, idSponsor);
             final ResultSet resultSet = statement.executeQuery();
             return readSponsorFromResultSet(resultSet).stream().findFirst();
         } catch (final SQLException e) {
